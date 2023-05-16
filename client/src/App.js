@@ -1,4 +1,6 @@
-import {  Route, Router, Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React from 'react';
+
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SingUp from './components/SingUp';
@@ -8,9 +10,10 @@ function App() {
   return (
     <div className="App">
     <Router>
-      <Switch>
-        <Route exact path="/" component={SingIn} />
-      </Switch>
+      <Routes>
+        <Route  path="/login" element={<SingIn/>} />
+        <Route path="/" element={<SingUp/>}/>
+      </Routes>
     </Router>
     </div>
   );

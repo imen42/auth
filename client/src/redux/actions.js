@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER, REGISTER_FAIL, REGISTER_SUCCESS } from "./actionTypes"
+import { GET_PROFILE, GET_PROFILE_FAIL, GET_PROFILE_SUCCESS, LOGIN, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER, REGISTER_FAIL, REGISTER_SUCCESS } from "./actionTypes"
 
 
 
@@ -39,3 +39,27 @@ try {
     });
 }
 }
+
+export const getProfile = () => async(dispatch) => {
+    const token = localStorage.getItem("token"); //heka li 3amartou fi localStorage (elli howa token)
+    const config = {
+        headers:{
+            Authorization:token
+        }
+    }
+    dispatch({
+        type:GET_PROFILE
+    })
+    try {
+    const {data} = await axios.get("/user/auth", config);
+    dispatch({
+            type: GET_PROFILE_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: GET_PROFILE_FAIL,
+            payload: error.response.data,
+        });
+    }
+};

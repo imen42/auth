@@ -1,5 +1,5 @@
 const User = require("../config/models/User")
-const bcrypt = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require ('config');
 const secret = config.get('secret');
@@ -19,15 +19,15 @@ let hash =await bcryptjs.hash(password, salt);
        newUser.password=hash
         await newUser.save();
 const payload = {
-    id:user._id,
+    id:newUser._id,
 };
         let token = jwt.sign(payload,secret);
         res.send({
             token,
             user:{
-                id:user._id,
-                fullName:user.fullName,
-                email:user.email,
+                id:newUser._id,
+                fullName:newUser.fullName,
+                email:newUser.email,
             }
         })
        // res.status(200).json(newUser);
@@ -44,17 +44,10 @@ exports.login = async(req,res)=>{
        const isMatch = await bcryptjs.compare(password,user.password);
        if (!user)return res.status(404).json({msg:"password doesn't match"});
        const payload = {
-        id:newUser._id,
+        id:user._id,
     };
             let token = jwt.sign(payload,secret);
-            res.send({
-                token,
-                user:{
-                    id:newUser._id,
-                    fullName:newUser.fullName,
-                    email:newUser.email,
-                }
-            });
+            
      } catch (error) {
         res.status(500).json({msg:error.message}) 
 

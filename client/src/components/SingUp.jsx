@@ -1,29 +1,62 @@
-import React from 'react'
-import { Button, Form } from 'react-bootstrap'
-
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../redux/actions';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { Link, Navigate } from 'react-router-dom';
 const SingUp = () => {
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const {loading,users}= useSelector (state=>state)
+  
+  const dispatch = useDispatch()
+  const handleSubmit = (e)=>{
+      e.preventDefault();
+      const newUser= {
+       fullName,
+       email,
+       password
+      }
+      dispatch(registerUser(newUser))
+  }
+
   return (
     <div>
-         <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
+      
+      {users?<Navigate to="/SingIn"/>:
+<Form>
+  
+   
+    
+    <>
+ 
+<Form.Group controlId="formBasicName">
+        <Form.Label>Name</Form.Label>
+        <Form.Control type="text" placeholder="Enter name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
         <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Form.Text className="text-muted">
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
+        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
+      <Button onClick={handleSubmit} variant="primary" type="submit">
+        Sign Up
       </Button>
+      <Link to="/login"></Link> 
+      </>
+       
     </Form>
+  }
     </div>
   )
 }
