@@ -8,6 +8,6 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 
 
-export const GET_PROFILE = "GET_PROFILE";
-export const GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS";
-export const GET_PROFILE_FAIL = "GET_PROFILE_FAIL";
+export const GET_SPACE = "GET_SPACE";
+export const GET_SPACE_SUCCESS = "GET_SPACE_SUCCESS";
+export const GET_SPACE_FAIL = "GET_SPACE_FAIL";

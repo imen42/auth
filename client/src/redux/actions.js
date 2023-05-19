@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_PROFILE, GET_PROFILE_FAIL, GET_PROFILE_SUCCESS, LOGIN, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER, REGISTER_FAIL, REGISTER_SUCCESS } from "./actionTypes"
+import {  GET_SPACE, GET_SPACE_FAIL, GET_SPACE_SUCCESS, LOGIN, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER, REGISTER_FAIL, REGISTER_SUCCESS } from "./actionTypes"
 
 
 
@@ -9,6 +9,7 @@ export const registerUser =(newUser)=>async(dispatch)=>{
     })
     try {
         const {data}= await axios.post('/user/register',newUser);
+        localStorage.setItem('token',data.token);
         dispatch({
             type:REGISTER_SUCCESS,
             payload:data
@@ -27,10 +28,11 @@ dispatch({
 })
 try {
     const {data} = await axios.post('/user/login',user);
+    console.log(data)
     localStorage.setItem('token',data.token);
     dispatch({
         type : LOGIN_SUCCESS,
-        payload: data.user
+        payload: data
     })
 } catch (error) {
     dispatch({
@@ -40,25 +42,25 @@ try {
 }
 }
 
-export const getProfile = () => async(dispatch) => {
+export const getSpace = () => async(dispatch) => {
     const token = localStorage.getItem("token"); //heka li 3amartou fi localStorage (elli howa token)
     const config = {
         headers:{
-            Authorization:token
+            authorization:token
         }
     }
     dispatch({
-        type:GET_PROFILE
+        type:GET_SPACE
     })
     try {
     const {data} = await axios.get("/user/auth", config);
     dispatch({
-            type: GET_PROFILE_SUCCESS,
+            type: GET_SPACE_SUCCESS,
             payload: data,
         })
     } catch (error) {
         dispatch({
-            type: GET_PROFILE_FAIL,
+            type: GET_SPACE_FAIL,
             payload: error.response.data,
         });
     }
